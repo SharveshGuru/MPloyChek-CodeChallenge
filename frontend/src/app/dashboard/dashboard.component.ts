@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DatePipe } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,6 @@ export class DashboardComponent implements OnInit {
 
     this.authService.getUserRecords().subscribe({
       next: (records) => {
-        // Transform the records to format the date
         this.records = records.map(record => ({
           ...record,
           createdAt: this.formatDate(record.createdAt)
@@ -48,6 +48,39 @@ export class DashboardComponent implements OnInit {
   formatDate(dateString: string): string {
     const datePipe = new DatePipe('en-US');
     return datePipe.transform(dateString, 'dd MMMM yyyy') || dateString;
+  }
+
+  isAdmin(): boolean {
+    return this.user?.role === 'Admin';
+  }
+
+  deleteRecord(recordId: string) {
+    if (confirm('Are you sure you want to delete this record?')) {
+      this.authService.deleteRecord(recordId).subscribe({
+        next: () => {
+          this.records = this.records.filter(record => record.id !== recordId);
+          alert('Record deleted successfully');
+          this.authService.getUserRecords().subscribe({
+            next: (records) => {
+              this.records = records.map(record => ({
+                ...record,
+                createdAt: this.formatDate(record.createdAt)
+              }));
+              this.isLoading = false;
+            },
+            error: (err) => {
+              console.error('Failed to load records', err);
+              this.isLoading = false;
+            }
+          });
+
+        },
+        error: (err) => {
+          console.error('Failed to delete record', err);
+          alert('Error deleting record');
+        }
+      });
+    }
   }
 
   logout() {

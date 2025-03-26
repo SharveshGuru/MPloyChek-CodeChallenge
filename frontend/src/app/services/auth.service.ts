@@ -96,4 +96,15 @@ export class AuthService {
     const user = this.getUserData();
     return user?.role === 'Admin';
   }
+
+  deleteRecord(recordId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.delete(`${this.apiUrl}/auth/records/${recordId}`, { headers });
+  }  
+  
 }

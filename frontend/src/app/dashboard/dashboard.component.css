@@ -5,19 +5,19 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
   
-  .header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
 }
   
-  .header h1 {
+.header h1 {
     color: #2c3e50;
     margin: 0;
 }
   
-  .user-profile, .records-section {
+.user-profile, .records-section {
     background: white;
     border-radius: 8px;
     padding: 25px;
@@ -25,7 +25,7 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
   
-  h2 {
+h2 {
     color: #34495e;
     margin-top: 0;
     margin-bottom: 20px;
@@ -33,28 +33,28 @@
     border-bottom: 1px solid #ecf0f1;
 }
   
-  .profile-card {
+.profile-card {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
 }
   
-  .profile-field {
+.profile-field {
     display: flex;
     align-items: center;
 }
   
-  .label {
+.label {
     font-weight: 600;
     color: #7f8c8d;
     min-width: 120px;
 }
   
-  .value {
+.value {
     color: #2c3e50;
 }
   
-  .role-badge, .access-badge {
+.role-badge, .access-badge {
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -63,18 +63,18 @@
     color: #2c3e50;
 }
   
-  .role-badge.admin, .access-badge.admin {
+.role-badge.admin, .access-badge.admin {
     background: #3498db;
     color: white;
 }
   
-  .records-table {
+.records-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
 }
   
-  .records-table th {
+.records-table th {
     background: #f8f9fa;
     color: #7f8c8d;
     font-weight: 600;
@@ -83,24 +83,24 @@
     border-bottom: 2px solid #ecf0f1;
 }
   
-  .records-table td {
+.records-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #ecf0f1;
     color: #34495e;
 }
   
-  .records-table tr:hover {
+.records-table tr:hover {
     background-color: #f8f9fa;
 }
   
-  .loading, .no-records {
+.loading, .no-records {
     text-align: center;
     padding: 30px;
     color: #7f8c8d;
     font-style: italic;
 }
   
-  .logout-btn {
+.logout-btn {
     background: #e74c3c;
     color: white;
     border: none;
@@ -111,8 +111,27 @@
     transition: background 0.3s;
 }
   
-  .logout-btn:hover {
+.logout-btn:hover {
     background: #c0392b;
+}
+
+button.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+button.delete-btn:hover {
+    background: #c0392b;
+}
+
+button.delete-btn:focus {
+    outline: none;
 }
 
 @media (max-width: 768px) {
@@ -123,5 +142,9 @@
     .records-table {
         display: block;
         overflow-x: auto;
+    }
+
+    button.delete-btn {
+        padding: 6px 12px;
     }
 }

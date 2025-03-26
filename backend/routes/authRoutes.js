@@ -145,5 +145,20 @@ router.delete('/users/email/:email', authenticateToken, verifyAdmin, async (req,
   }
 });
 
+router.delete('/records/:id', authenticateToken, verifyAdmin, async (req, res) => {
+  try {
+      const recordId = req.params.id;
+      const deletedRecord = await Record.findByIdAndDelete(recordId);
+
+      if (!deletedRecord) {
+          return res.status(404).json({ message: "Record not found" });
+      }
+
+      res.json({ message: "Record deleted successfully" });
+  } catch (err) {
+      console.error("Error deleting record:", err);
+      res.status(500).json({ message: "Failed to delete record" });
+  }
+});
 
 module.exports = router;

@@ -29,7 +29,7 @@
     </div>
   
     <div class="records-section">
-      <h2>Your Records</h2>
+      <h2>Records</h2>
       <div *ngIf="isLoading" class="loading">Loading your records...</div>
       <div *ngIf="!isLoading && records.length === 0" class="no-records">
         No records available for your access level.
@@ -37,16 +37,15 @@
       <table *ngIf="!isLoading && records.length > 0" class="records-table">
         <thead>
           <tr>
-            <!-- <th>ID</th> -->
             <th>Title</th>
             <th>Description</th>
             <th>Access Level</th>
             <th>Created</th>
+            <th *ngIf="isAdmin()">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let record of records">
-            <!-- <td>{{ record.id }}</td> -->
             <td>{{ record.title }}</td>
             <td>{{ record.description }}</td>
             <td>
@@ -55,6 +54,9 @@
               </span>
             </td>
             <td>{{ record.createdAt }}</td>
+            <td *ngIf="isAdmin()">
+              <button class="delete-btn" (click)="deleteRecord(record._id)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
