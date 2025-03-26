@@ -4,6 +4,7 @@ const { authenticateToken, verifyAdmin } = require('../middleware/authMiddleware
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); 
+const dotenv = require('dotenv');
 
 dotenv.config();
 
