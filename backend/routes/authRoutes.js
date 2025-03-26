@@ -161,4 +161,52 @@ router.delete('/records/:id', authenticateToken, verifyAdmin, async (req, res) =
   }
 });
 
+
+router.post('/records', authenticateToken, verifyAdmin, async (req, res) => {
+  try {
+      const { title, description, accessLevel } = req.body;
+
+      if (!title || !description || !accessLevel) {
+          return res.status(400).json({ message: "All fields are required" });
+      }
+
+      const newRecord = new Record({
+          title,
+          description,
+          accessLevel,
+          createdAt: new Date(),
+      });
+
+      await newRecord.save();
+      res.status(201).json({ message: "Record added successfully", record: newRecord });
+
+  } catch (err) {
+      console.error("Error adding record:", err);
+      res.status(500).json({ message: "Failed to add record" });
+  }
+});
+
+router.put('/records/:id', authenticateToken, verifyAdmin, async (req, res) => {
+  try {
+      const { title, description, accessLevel } = req.body;
+      const recordId = req.params.id;
+
+      const updatedRecord = await Record.findByIdAndUpdate(recordId, {
+          title,
+          description,
+          accessLevel
+      }, { new: true });
+
+      if (!updatedRecord) {
+          return res.status(404).json({ message: "Record not found" });
+      }
+
+      res.json({ message: "Record updated successfully", record: updatedRecord });
+
+  } catch (err) {
+      console.error("Error updating record:", err);
+      res.status(500).json({ message: "Failed to update record" });
+  }
+});
+
 module.exports = router;
