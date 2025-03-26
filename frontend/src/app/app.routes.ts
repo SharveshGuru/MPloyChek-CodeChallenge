@@ -1,3 +1,24 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { 
+    path: 'register', 
+    component: RegisterComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Admin'] }
+  },
+  { 
+    path: 'dashboard', 
+    component: DashboardComponent, 
+    canActivate: [AuthGuard] 
+  },
+  { path: '**', redirectTo: 'login' }
+];
