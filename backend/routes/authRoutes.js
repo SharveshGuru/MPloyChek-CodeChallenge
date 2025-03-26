@@ -116,6 +116,30 @@ router.get('/records', authenticateToken, async (req, res) => {
       console.error('Error fetching records:', err);
       res.status(500).json({ message: 'Failed to fetch records' });
     }
-  });
+});
+
+
+router.get('/users', authenticateToken, verifyAdmin, async (req, res) => {
+  try {
+      const users = await User.find().select('-password'); 
+      res.json(users);
+  } catch (err) {
+      console.error("Error fetching users:", err);
+      res.status(500).json({ message: "Failed to fetch users" });
+  }
+});
+
+router.delete('/users/:id', authenticateToken, verifyAdmin, async (req, res) => {
+  try {
+      const userId = req.params.id;
+      await User.findByIdAndDelete(userId);
+      res.json({ message: "User deleted successfully" });
+  } catch (err) {
+      console.error("Error deleting user:", err);
+      res.status(500).json({ message: "Failed to delete user" });
+  }
+});
+
+
 
 module.exports = router;
