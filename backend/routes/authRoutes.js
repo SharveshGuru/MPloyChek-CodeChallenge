@@ -129,17 +129,21 @@ router.get('/users', authenticateToken, verifyAdmin, async (req, res) => {
   }
 });
 
-router.delete('/users/:id', authenticateToken, verifyAdmin, async (req, res) => {
+router.delete('/users/email/:email', authenticateToken, verifyAdmin, async (req, res) => {
   try {
-      const userId = req.params.id;
-      await User.findByIdAndDelete(userId);
+      const userEmail = req.params.email;  
+      const deletedUser = await User.findOneAndDelete({ email: userEmail });
+
+      if (!deletedUser) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
       res.json({ message: "User deleted successfully" });
   } catch (err) {
       console.error("Error deleting user:", err);
       res.status(500).json({ message: "Failed to delete user" });
   }
 });
-
 
 
 module.exports = router;

@@ -48,7 +48,6 @@ export class AuthService {
             username: decodedToken.username,
             email: decodedToken.email,
             role: decodedToken.role,
-
           }));
         }
       })

@@ -1,1 +1,28 @@
-<p>user-database works!</p>
+<div class="container">
+    <h2>User Database</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <button 
+              *ngIf="user._id !== loggedInUserEmail" 
+              (click)="deleteUser(user.email)" 
+              class="delete-btn">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
