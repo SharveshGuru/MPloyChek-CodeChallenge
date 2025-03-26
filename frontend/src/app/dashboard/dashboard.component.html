@@ -1,1 +1,62 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <div class="header">
+      <h1>Welcome to Your Dashboard</h1>
+      <!-- <button class="logout-btn" (click)="logout()">Logout</button> -->
+    </div>
+  
+    <div class="user-profile">
+      <h2>Your Profile</h2>
+      <div *ngIf="user" class="profile-card">
+        <div class="profile-field">
+          <span class="label">Name:</span>
+          <span class="value">{{ user.username }}</span>
+        </div>
+        <div class="profile-field">
+          <span class="label">Email:</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+        <div class="profile-field">
+          <span class="label">Role:</span>
+          <span class="value role-badge" [class.admin]="user.role === 'Admin'">
+            {{ user.role }}
+          </span>
+        </div>
+        <!-- <div class="profile-field">
+          <span class="label">Member Since:</span>
+          <span class="value">{{ user.joinDate }}</span>
+        </div> -->
+      </div>
+    </div>
+  
+    <div class="records-section">
+      <h2>Your Records</h2>
+      <div *ngIf="isLoading" class="loading">Loading your records...</div>
+      <div *ngIf="!isLoading && records.length === 0" class="no-records">
+        No records available for your access level.
+      </div>
+      <table *ngIf="!isLoading && records.length > 0" class="records-table">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <th>Title</th>
+            <th>Description</th>
+            <th>Access Level</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of records">
+            <!-- <td>{{ record.id }}</td> -->
+            <td>{{ record.title }}</td>
+            <td>{{ record.description }}</td>
+            <td>
+              <span class="access-badge" [class.admin]="record.accessLevel === 'Admin'">
+                {{ record.accessLevel }}
+              </span>
+            </td>
+            <td>{{ record.createdAt }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
