@@ -68,4 +68,33 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
+
+  getUserData(): User | null {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  }
+
+  getUserRecords(): Observable<Record[]> {
+    const user = this.getUserData();
+    
+    const isAdmin = user?.role === 'Admin';
+    
+    const token = localStorage.getItem('token');
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.get<Record[]>(`${this.apiUrl}/auth/records`, { headers }).pipe(
+      // tap((records) => {
+      //   console.log('Fetched records:', records);
+      // })
+    );
+  }
+  
+
+  isAdmin(): boolean {
+    const user = this.getUserData();
+    return user?.role === 'Admin';
+  }
 }
