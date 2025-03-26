@@ -21,49 +21,45 @@ async function createSuperUser() {
             role: 'Admin'
         });
         await superUser.save();
-        console.log('✅ Superuser created: admin@example.com / admin123');
+        // console.log('Superuser created: admin@example.com / admin123');
     } else {
-        console.log('⚠️ Superuser already exists.');
+        console.log('Superuser already exists.');
     }
 }
 createSuperUser();
 
-// ✅ User Registration (Only Admins Can Register Users)
 router.post('/register', authenticateToken, verifyAdmin, async (req, res) => {
   try {
-      console.log("📩 Request Body:", req.body); // ✅ Debug Request Body
+      // console.log("Request Body:", req.body); 
 
       const { email, password, username, role } = req.body;
       if (!email || !password || !username || !role) {
-          console.log("⚠️ Missing Fields");
+          console.log("Missing Fields");
           return res.status(400).json({ message: "All fields are required" });
       }
 
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-          console.log("⚠️ User already exists:", existingUser.email);
+          console.log("User already exists:", existingUser.email);
           return res.status(400).json({ message: "User already exists" });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log("🔑 Hashed Password:", hashedPassword); // ✅ Debug password hashing
-
       const newUser = new User({ email, password: hashedPassword, username, role });
       await newUser.save();
-      console.log("✅ New User Registered:", newUser);
+      console.log("New User Registered:", newUser);
 
       res.status(201).json({ message: "User registered successfully" });
 
   } catch (err) {
-      console.error("❌ Internal Server Error:", err);
+      console.error("Internal Server Error:", err);
       res.status(500).json({ message: err.message });
   }
 });
 
-// ✅ User Login
 router.post('/login', async (req, res) => {
     try {
-        console.log("🛠️ Received Login Request:", req.body); // Debugging log
+        console.log("🛠️ Received Login Request:", req.body); 
   
         const { email, password } = req.body;
         if (!email || !password) {
@@ -76,7 +72,6 @@ router.post('/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
   
-        // Create JWT token including username, email, and role
         const token = jwt.sign(
             { 
                 id: user._id, 
@@ -84,15 +79,15 @@ router.post('/login', async (req, res) => {
                 email: user.email, 
                 role: user.role 
             },
-            JWT_SECRET, // Use the secret key here, make sure it's not hardcoded in production
+            JWT_SECRET,
             { expiresIn: '1h' }
         );
   
-        console.log("✅ Login Successful:", user.email); // Debugging log
+        console.log("Login Successful:", user.email);
         res.json({ token, user: { username: user.username, email: user.email, role: user.role } });
   
     } catch (err) {
-        console.error("❌ Server Error:", err);
+        console.error("Server Error:", err);
         res.status(500).json({ message: err.message });
     }
   });
