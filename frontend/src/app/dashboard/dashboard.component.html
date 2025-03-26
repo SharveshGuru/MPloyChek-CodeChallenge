@@ -21,15 +21,15 @@
             {{ user.role }}
           </span>
         </div>
-        <!-- <div class="profile-field">
-          <span class="label">Member Since:</span>
-          <span class="value">{{ user.joinDate }}</span>
-        </div> -->
       </div>
     </div>
   
     <div class="records-section">
-      <h2>Records</h2>
+      <div class="records-header">
+        <h2>Records</h2>
+        <button *ngIf="isAdmin()" class="add-record-btn" (click)="openAddRecordModal()">Add Record</button>
+      </div>
+      
       <div *ngIf="isLoading" class="loading">Loading your records...</div>
       <div *ngIf="!isLoading && records.length === 0" class="no-records">
         No records available for your access level.
@@ -54,11 +54,68 @@
               </span>
             </td>
             <td>{{ record.createdAt }}</td>
-            <td *ngIf="isAdmin()">
+            <td *ngIf="isAdmin()" class="actions-cell">
+              <button class="edit-btn" (click)="openEditRecordModal(record)">Edit</button>
               <button class="delete-btn" (click)="deleteRecord(record._id)">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Add Record Modal -->
+    <div *ngIf="showAddModal" class="modal-overlay">
+      <div class="modal">
+        <h3>Add New Record</h3>
+        <form (ngSubmit)="addRecord()">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" [(ngModel)]="newRecord.title" name="title" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" [(ngModel)]="newRecord.description" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="accessLevel">Access Level</label>
+            <select id="accessLevel" [(ngModel)]="newRecord.accessLevel" name="accessLevel" required>
+              <option value="General">General</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="save-btn">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Record Modal -->
+    <div *ngIf="showEditModal" class="modal-overlay">
+      <div class="modal">
+        <h3>Edit Record</h3>
+        <form (ngSubmit)="updateRecord()">
+          <div class="form-group">
+            <label for="editTitle">Title</label>
+            <input type="text" id="editTitle" [(ngModel)]="editingRecord.title" name="editTitle" required>
+          </div>
+          <div class="form-group">
+            <label for="editDescription">Description</label>
+            <textarea id="editDescription" [(ngModel)]="editingRecord.description" name="editDescription" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editAccessLevel">Access Level</label>
+            <select id="editAccessLevel" [(ngModel)]="editingRecord.accessLevel" name="editAccessLevel" required>
+              <option value="General">General</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="save-btn">Update</button>
+          </div>
+        </form>
+      </div>
     </div>
 </div>

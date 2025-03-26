@@ -3,12 +3,12 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DatePipe } from '@angular/common';
-import { HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -16,6 +16,21 @@ export class DashboardComponent implements OnInit {
   user: any = null;
   records: any[] = [];
   isLoading = true;
+  showAddModal = false;
+  showEditModal = false;
+  
+  newRecord: any = {
+    title: '',
+    description: '',
+    accessLevel: 'General'
+  };
+  
+  editingRecord: any = {
+    _id: '',
+    title: '',
+    description: '',
+    accessLevel: 'General'
+  };
 
   constructor(
     private authService: AuthService,
@@ -29,6 +44,10 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
+    this.loadRecords();
+  }
+
+  loadRecords() {
     this.authService.getUserRecords().subscribe({
       next: (records) => {
         this.records = records.map(record => ({
@@ -44,7 +63,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Helper method to format date
   formatDate(dateString: string): string {
     const datePipe = new DatePipe('en-US');
     return datePipe.transform(dateString, 'dd MMMM yyyy') || dateString;
@@ -54,26 +72,61 @@ export class DashboardComponent implements OnInit {
     return this.user?.role === 'Admin';
   }
 
+  openAddRecordModal() {
+    this.newRecord = {
+      title: '',
+      description: '',
+      accessLevel: 'General'
+    };
+    this.showAddModal = true;
+  }
+
+  openEditRecordModal(record: any) {
+    this.editingRecord = {
+      _id: record._id,
+      title: record.title,
+      description: record.description,
+      accessLevel: record.accessLevel
+    };
+    this.showEditModal = true;
+  }
+
+  closeModal() {
+    this.showAddModal = false;
+    this.showEditModal = false;
+  }
+
+  addRecord() {
+    this.authService.addRecord(this.newRecord).subscribe({
+      next: (response) => {
+        this.loadRecords();
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error('Failed to add record', err);
+        alert('Error adding record');
+      }
+    });
+  }
+
+  updateRecord() {
+    this.authService.updateRecord(this.editingRecord._id, this.editingRecord).subscribe({
+      next: (response) => {
+        this.loadRecords();
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error('Failed to update record', err);
+        alert('Error updating record');
+      }
+    });
+  }
+
   deleteRecord(recordId: string) {
     if (confirm('Are you sure you want to delete this record?')) {
       this.authService.deleteRecord(recordId).subscribe({
         next: () => {
-          this.records = this.records.filter(record => record.id !== recordId);
-          alert('Record deleted successfully');
-          this.authService.getUserRecords().subscribe({
-            next: (records) => {
-              this.records = records.map(record => ({
-                ...record,
-                createdAt: this.formatDate(record.createdAt)
-              }));
-              this.isLoading = false;
-            },
-            error: (err) => {
-              console.error('Failed to load records', err);
-              this.isLoading = false;
-            }
-          });
-
+          this.loadRecords();
         },
         error: (err) => {
           console.error('Failed to delete record', err);

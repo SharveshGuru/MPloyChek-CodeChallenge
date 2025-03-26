@@ -106,5 +106,20 @@ export class AuthService {
   
     return this.http.delete(`${this.apiUrl}/auth/records/${recordId}`, { headers });
   }  
+
+  addRecord(recordData: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.post<any>(`${this.apiUrl}/auth/records`, recordData, { headers });
+  }
+  
+  updateRecord(recordId: string, recordData: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.put<any>(`${this.apiUrl}/auth/records/${recordId}`, recordData, { headers });
+  }
+  
   
 }
