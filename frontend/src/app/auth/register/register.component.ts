@@ -41,7 +41,7 @@ export class RegisterComponent {
         // console.log('User registered successfully:', res);
         // Optional: Reset form or navigate
         this.user = { username: '', email: '', password: '', role: 'General User' };
-        alert('Registration successful! Welcome aboard!');
+        alert('Registration successful!');
 
       },
       (error) => {
