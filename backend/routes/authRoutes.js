@@ -60,7 +60,6 @@ router.post('/register', authenticateToken, verifyAdmin, async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        console.log("🛠️ Received Login Request:", req.body); 
   
         const { email, password } = req.body;
         if (!email || !password) {
@@ -84,7 +83,6 @@ router.post('/login', async (req, res) => {
             { expiresIn: '1h' }
         );
   
-        console.log("Login Successful:", user.email);
         res.json({ token, user: { username: user.username, email: user.email, role: user.role } });
   
     } catch (err) {
@@ -94,7 +92,6 @@ router.post('/login', async (req, res) => {
   });
 
 
-// ✅ Get User Profile (Protected)
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
       const user = await User.findById(req.user.id).select('-password'); // Exclude password
@@ -107,7 +104,6 @@ router.get('/profile', authenticateToken, async (req, res) => {
 router.get('/records', authenticateToken, async (req, res) => {
     try {
       const user = req.user; // user is populated from authenticateToken middleware
-      console.log("hi");
       // Check if user is an Admin
       if (user.role === 'Admin') {
         const records = await Record.find();

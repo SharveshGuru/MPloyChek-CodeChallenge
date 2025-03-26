@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const dotenv = require('dotenv');
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function (req, res, next) {
     const token = req.header('Authorization');
@@ -7,7 +10,7 @@ module.exports = function (req, res, next) {
     if (!token) return res.status(401).json({ message: "Access Denied" });
 
     try {
-        const decoded = jwt.verify(token.split(" ")[1], "your_secret_key");
+        const decoded = jwt.verify(token.split(" ")[1], JWT_SECRET);
         req.user = decoded;
         next();
     } catch (err) {
@@ -26,7 +29,7 @@ const authenticateToken = (req, res, next) => {
         ? authHeader.split(' ')[1] 
         : authHeader;
 
-    jwt.verify(token, "your_secret_key", async (err, decoded) => {
+    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: "Forbidden: Invalid token" });
         }
