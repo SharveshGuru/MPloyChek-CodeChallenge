@@ -26,12 +26,15 @@ import { AuthService } from '../../services/auth.service';
           <div class="form-group">
             <label>Password</label>
             <input 
-              type="password" 
+              [type]="passwordFieldType" 
               [(ngModel)]="password" 
               name="password" 
               required
               placeholder="Enter your password"
             >
+            <button type="button" class="show-password-btn" (click)="togglePasswordVisibility()">
+              {{ passwordFieldType === 'password' ? 'Show Password' : 'Hide Password' }}
+            </button>
           </div>
           <button type="submit">Login</button>
           <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
@@ -152,17 +155,43 @@ import { AuthService } from '../../services/auth.service';
         padding: 1.5rem;
       }
     }
+
+    /* Add styling for the show password button */
+    .show-password-btn {
+      background: none;
+      border: none;
+      color: #4895ef;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      padding: 0;
+      transition: color 0.3s ease;
+    }
+
+    .show-password-btn:hover {
+      color: #3578e5;
+    }
+
+    .show-password-btn:focus {
+      outline: none;
+    }
   `]
 })
 export class LoginComponent {
   email = '';
   password = '';
   errorMessage = '';
+  passwordFieldType: string = 'password'; // Default to password field type
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
+
+  // Toggle the password visibility
+  togglePasswordVisibility() {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
 
   onSubmit() {
     this.authService.login({ email: this.email, password: this.password })

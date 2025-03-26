@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [RouterModule, CommonModule]
 })
 export class AppComponent {
-  title = 'Angular + NodeJS SPA';
+  title = 'MPloyChek Code Challenge';
   isLoggedIn = false;
   isAdmin = false;
 

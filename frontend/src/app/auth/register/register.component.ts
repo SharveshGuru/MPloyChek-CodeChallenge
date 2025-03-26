@@ -12,8 +12,12 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   user = { username: '', email: '', password: '', role: 'General User' };
-
+  passwordFieldType: string = 'password';  
   constructor(private authService: AuthService, private router: Router) {}
+
+  togglePasswordVisibility() {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
 
   register() {
     const token = localStorage.getItem('token');

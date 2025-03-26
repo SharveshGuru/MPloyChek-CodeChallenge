@@ -106,12 +106,32 @@ input::placeholder {
   color: #aaa;
 }
 
-@media (max-width: 500px) {
-  .form-container {
-    padding: 1.5rem;
-  }
+.show-password-btn {
+    background: none;
+    border: none;
+    color: #4c8bf5;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+  
+.show-password-btn:hover {
+    color: #3578e5;
+}
 
-  .form-title {
-    font-size: 1.25rem;
-  }
+.show-password-btn:focus {
+    outline: none;
+}
+
+
+@media (max-width: 500px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .form-title {
+        font-size: 1.25rem;
+    }
 }
