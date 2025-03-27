@@ -94,7 +94,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-      const user = await User.findById(req.user.id).select('-password'); // Exclude password
+      const user = await User.findById(req.user.id).select('-password'); 
       res.json(user);
   } catch (err) {
       res.status(500).json({ message: err.message });
@@ -103,8 +103,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
 
 router.get('/records', authenticateToken, async (req, res) => {
     try {
-      const user = req.user; // user is populated from authenticateToken middleware
-      // Check if user is an Admin
+      const user = req.user;
       if (user.role === 'Admin') {
         const records = await Record.find();
         return res.json(records);
@@ -148,7 +147,7 @@ router.delete('/users/email/:email', authenticateToken, verifyAdmin, async (req,
 router.delete('/records/:id', authenticateToken, verifyAdmin, async (req, res) => {
   try {
       const recordId = req.params.id;
-      const deletedRecord = await Record.findIdAndDelete(recordId);
+      const deletedRecord = await Record.findByIdAndDelete(recordId);
 
       if (!deletedRecord) {
           return res.status(404).json({ message: "Record not found" });
