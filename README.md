@@ -3,6 +3,10 @@
 ## Project Overview
 This is a Single Page Application (SPA) developed for the code challenge presented by MPloyChek for the Software Intern postion. The application demonstrates user authentication, role-based access control, and user management capabilities using Angular and Node.js with Express.js.
 
+Visit the hosted application: [MPloyChek-Code Challenge](https://mploychek-codechallenge.netlify.app/)
+
+Since it's hosted on a free tier, the initial response time may be delayed by a few minutes.
+
 ## Key Features
 - **Authentication System**
   - Login page with UserID and Password
@@ -11,11 +15,10 @@ This is a Single Page Application (SPA) developed for the code challenge present
 - **User Dashboard**
   - User profile details display
   - Role-based record list retrieval
-  - Asynchronous data loading mechanism
 
 - **Admin Management**
   - User management capabilities
-  - Asynchronous processing demonstration
+  - Record management capabilities
 
 ## Technical Stack
 - Frontend: Angular 19.2.4
