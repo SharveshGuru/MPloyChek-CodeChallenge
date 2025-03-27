@@ -15,11 +15,10 @@ Since it's hosted on a free tier, the initial response time may be delayed by a 
 - **User Dashboard**
   - User profile details display
   - Role-based record list retrieval
-  - Asynchronous data loading mechanism
 
 - **Admin Management**
   - User management capabilities
-  - Asynchronous processing demonstration
+  - Record management capabilities
 
 ## Technical Stack
 - Frontend: Angular 19.2.4
