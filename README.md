@@ -1,7 +1,7 @@
 # MPloyChek Code Challenge
 
 ## Project Overview
-This is a Single Page Application (SPA) developed for the MPloyChek Software Intern position code challenge. The application demonstrates user authentication, role-based access control, and user management capabilities using Angular 12+ and Node.js/TypeScript.
+This is a Single Page Application (SPA) developed for the code challenge presented by MPloyChek for the Software Intern postion. The application demonstrates user authentication, role-based access control, and user management capabilities using Angular and Node.js with Express.js.
 
 ## Key Features
 - **Authentication System**
